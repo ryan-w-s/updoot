@@ -8,19 +8,19 @@
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div class="field">
-      <%= f.label :email, class: "label" %><br />
+      <%= f.label :email, class: "label is-medium" %><br />
       <div class="control">
         <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "input is-rounded is-medium" %>
       </div>
     </div>
 
     <div class="field">
-      <%= f.label :name, class: "label" %><br />
+      <%= f.label :name, class: "label is-medium" %><br />
       <%= f.text_field :name, autocomplete: "name", class: "input is-rounded is-medium" %>
     </div>
 
     <div class="field">
-      <%= f.label :password, class: "label" %>
+      <%= f.label :password, class: "label is-medium" %>
       <% if @minimum_password_length %>
       <em>(<%= @minimum_password_length %> characters minimum)</em>
       <% end %><br />
@@ -28,12 +28,12 @@
     </div>
 
     <div class="field">
-      <%= f.label :password_confirmation, class: "label" %><br />
+      <%= f.label :password_confirmation, class: "label is-medium" %><br />
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input is-rounded is-medium" %>
     </div>
 
     <div class="actions">
-      <%= f.submit "Sign up", class: "button" %>
+      <%= f.submit "Sign up", class: "button is-medium" %>
     </div>
   <% end %>
 
