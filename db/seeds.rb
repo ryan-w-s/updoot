@@ -6,3 +6,4 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 ryan = User.create! :name => 'ryanadmin', :email => 'ryan.stolliker@gmail.com', :password => 'topsecret', :password_confirmation => 'topsecret'
+memes = Collection.create! :name => 'memes'
