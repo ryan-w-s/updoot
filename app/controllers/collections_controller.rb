@@ -1,5 +1,7 @@
 class CollectionsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :set_collection, only: %i[ show edit update destroy ]
+  before_action :ensure_moderator, only: [:edit, :update, :destroy]
 
   # GET /collections or /collections.json
   def index
@@ -25,6 +27,9 @@ class CollectionsController < ApplicationController
 
     respond_to do |format|
       if @collection.save
+        # Make the current user a moderator of the collection
+        @collection.moderators.create(user: current_user)
+        
         format.html { redirect_to collection_url(@collection), notice: "Collection was successfully created." }
         format.json { render :show, status: :created, location: @collection }
       else
@@ -66,5 +71,11 @@ class CollectionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def collection_params
       params.require(:collection).permit(:name, :description)
+    end
+
+    def ensure_moderator
+      unless @collection.mods.include?(current_user)
+        redirect_to collections_path, alert: "You must be a moderator to perform this action."
+      end
     end
 end
