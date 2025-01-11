@@ -1,12 +1,30 @@
-<div id="<%= dom_id collection %>">
-  <p>
-    <strong>Name:</strong>
-    <%= collection.name %>
-  </p>
-
-  <p>
-    <strong>Description:</strong>
-    <%= collection.description %>
-  </p>
-
+<div class="column is-one-third">
+  <div class="card" id="<%= dom_id collection %>">
+    <div class="card-content">
+      <p class="title is-4">
+        <%= link_to collection.name, collection, class: "has-text-info-light" %>
+      </p>
+      <div class="content">
+        <%= collection.description %>
+      </div>
+      <div class="tags">
+        <span class="tag is-info">
+          <%= pluralize(collection.posts.count, 'post') %>
+        </span>
+        <span class="tag is-success">
+          <%= pluralize(collection.mods.count, 'moderator') %>
+        </span>
+      </div>
+    </div>
+    
+    <footer class="card-footer">
+      <%= link_to "View Collection", collection, class: "card-footer-item" %>
+      <% if user_signed_in? && collection.moderator?(current_user) %>
+        <%= link_to "Edit", edit_collection_path(collection), class: "card-footer-item" %>
+        <%= button_to "Delete", collection, method: :delete, 
+            class: "card-footer-item has-text-danger",
+            data: { turbo_confirm: "Are you sure?" } %>
+      <% end %>
+    </footer>
+  </div>
 </div>

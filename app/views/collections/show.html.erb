@@ -1,23 +1,45 @@
-<p style="color: green"><%= notice %></p>
-
-<div class="container">
-  <%= render @collection %>
-
-  <div class="mb-4">
-    <% if user_signed_in? %>
-      <%= link_to "New Post", new_collection_post_path(@collection), class: "btn btn-primary" %>
+<section class="section">
+  <div class="container">
+    <% if notice %>
+      <div class="notification is-success">
+        <%= notice %>
+      </div>
     <% end %>
-    
-    <% if user_signed_in? && @collection.moderator?(current_user) %>
-      <%= link_to "Edit Collection", edit_collection_path(@collection), class: "btn btn-secondary" %>
-      <%= button_to "Delete Collection", @collection, method: :delete, class: "btn btn-danger", form: { style: 'display: inline-block' }, data: { turbo_confirm: "Are you sure?" } %>
-    <% end %>
-    
-    <%= link_to "Back to Collections", collections_path, class: "btn btn-link" %>
-  </div>
 
-  <div class="posts-container">
-    <h2>Posts</h2>
-    <%= render @collection.posts.order(created_at: :desc) %>
+    <%= render @collection %>
+
+    <div class="field is-grouped mb-5">
+      <% if user_signed_in? %>
+        <div class="control">
+          <%= link_to "New Post", new_collection_post_path(@collection), class: "button is-primary" %>
+        </div>
+      <% end %>
+      
+      <% if user_signed_in? && @collection.moderator?(current_user) %>
+        <div class="control">
+          <%= link_to "Edit Collection", edit_collection_path(@collection), class: "button is-info" %>
+        </div>
+        <div class="control">
+          <%= button_to "Delete Collection", @collection, method: :delete, 
+              class: "button is-danger",
+              data: { turbo_confirm: "Are you sure?" } %>
+        </div>
+      <% end %>
+      
+      <div class="control">
+        <%= link_to "Back to Collections", collections_path, class: "button is-light" %>
+      </div>
+    </div>
+
+    <div class="posts-container">
+      <h2 class="title is-4">Posts</h2>
+      <% if @collection.posts.any? %>
+        <%= render @collection.posts.order(created_at: :desc) %>
+      <% else %>
+        <div class="notification is-info is-light">
+          No posts yet. Be the first to create one!
+        </div>
+      <% end %>
+    </div>
   </div>
-</div>
+</section>

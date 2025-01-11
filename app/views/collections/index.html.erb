@@ -1,14 +1,36 @@
-<p style="color: green"><%= notice %></p>
+<section class="section">
+  <div class="container">
+    <% if notice %>
+      <div class="notification is-success">
+        <%= notice %>
+      </div>
+    <% end %>
 
-<h1>Collections</h1>
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title">Collections</h1>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <% if user_signed_in? %>
+            <%= link_to "New Collection", new_collection_path, class: "button is-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
-<div id="collections">
-  <% @collections.each do |collection| %>
-    <%= render collection %>
-    <p>
-      <%= link_to "Show this collection", collection %>
-    </p>
-  <% end %>
-</div>
-
-<%= link_to "New collection", new_collection_path %>
+    <div class="columns is-multiline">
+      <% if @collections.any? %>
+        <%= render @collections %>
+      <% else %>
+        <div class="column">
+          <div class="notification is-info is-light">
+            No collections yet. <%= link_to "Create the first one!", new_collection_path if user_signed_in? %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
