@@ -5,22 +5,22 @@ class ModeratorsController < ApplicationController
   before_action :set_target_user, only: [:destroy]
 
   def create
-    @user = User.find_by(email: params[:user_email])
+    @user = User.find_by(name: params[:user_name])
     
     if @user.nil?
-      redirect_to edit_collection_path(@collection), alert: "User not found."
+      redirect_to edit_collection_path(@collection), alert: "User not found. Please enter a valid username."
       return
     end
 
     if @collection.mods.include?(@user)
-      redirect_to edit_collection_path(@collection), alert: "User is already a moderator."
+      redirect_to edit_collection_path(@collection), alert: "#{@user.name} is already a moderator."
       return
     end
 
     @moderator = @collection.moderators.build(user: @user)
 
     if @moderator.save
-      redirect_to edit_collection_path(@collection), notice: "Moderator was successfully added."
+      redirect_to edit_collection_path(@collection), notice: "#{@user.name} was successfully added as a moderator."
     else
       redirect_to edit_collection_path(@collection), alert: "Unable to add moderator."
     end
@@ -35,7 +35,7 @@ class ModeratorsController < ApplicationController
     @moderator = @collection.moderators.find_by(user: @target_user)
     
     if @moderator&.destroy
-      redirect_to edit_collection_path(@collection), notice: "Moderator was successfully removed."
+      redirect_to edit_collection_path(@collection), notice: "#{@target_user.name} was successfully removed as a moderator."
     else
       redirect_to edit_collection_path(@collection), alert: "Unable to remove moderator."
     end

@@ -26,7 +26,7 @@
                                 <span class="icon">
                                   <i class="fas fa-user-shield"></i>
                                 </span>
-                                <span><%= mod.name || mod.email %></span>
+                                <span><%= mod.name %></span>
                               </span>
                             </div>
                           </div>
@@ -36,7 +36,7 @@
                                   method: :delete,
                                   class: "button is-small is-danger is-light",
                                   form: { class: 'd-inline' },
-                                  data: { turbo_confirm: "Are you sure you want to remove this moderator?" } do %>
+                                  data: { turbo_confirm: "Are you sure you want to remove #{mod.name} as moderator?" } do %>
                                 <span class="icon">
                                   <i class="fas fa-times"></i>
                                 </span>
@@ -55,14 +55,18 @@
                   <h3 class="subtitle mb-3">Add Moderator</h3>
                   <%= form_with(url: collection_moderators_path(@collection), local: true, class: "is-flex") do |f| %>
                     <div class="field has-addons">
-                      <div class="control is-expanded">
-                        <%= f.text_field :user_email, class: "input", placeholder: "Enter user email" %>
+                      <div class="control is-expanded has-icons-left">
+                        <%= f.text_field :user_name, class: "input", placeholder: "Enter username" %>
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-user"></i>
+                        </span>
                       </div>
                       <div class="control">
                         <%= f.submit "Add", class: "button is-info" %>
                       </div>
                     </div>
                   <% end %>
+                  <p class="help">Enter the exact username of the user you want to make a moderator.</p>
                 </div>
               </div>
             </div>
