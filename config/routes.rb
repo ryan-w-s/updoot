@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   resources :collections do
     resources :posts
     resource :watcher, only: [:create, :destroy]
+    resources :moderators, only: [:create, :destroy]
   end
 end

@@ -2,6 +2,8 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_collection
   before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :authorize_post, only: [:edit, :update]
+  before_action :authorize_post_deletion, only: [:destroy]
 
   # GET /collections/:collection_id/posts
   def index
@@ -19,7 +21,6 @@ class PostsController < ApplicationController
 
   # GET /collections/:collection_id/posts/1/edit
   def edit
-    authorize_post
   end
 
   # POST /collections/:collection_id/posts
@@ -29,7 +30,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to collection_post_url(@collection, @post), notice: "Post was successfully created." }
+        format.html { redirect_to collection_url(@collection), notice: "Post was successfully created." }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,10 +41,9 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /collections/:collection_id/posts/1
   def update
-    authorize_post
     respond_to do |format|
       if @post.update(post_params)
-        format.html { redirect_to collection_post_url(@collection, @post), notice: "Post was successfully updated." }
+        format.html { redirect_to collection_url(@collection), notice: "Post was successfully updated." }
         format.json { render :show, status: :ok, location: @post }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,11 +54,10 @@ class PostsController < ApplicationController
 
   # DELETE /collections/:collection_id/posts/1
   def destroy
-    authorize_post
     @post.destroy
 
     respond_to do |format|
-      format.html { redirect_to collection_posts_url(@collection), notice: "Post was successfully destroyed." }
+      format.html { redirect_to collection_url(@collection), notice: "Post was successfully deleted." }
       format.json { head :no_content }
     end
   end
@@ -74,7 +73,13 @@ class PostsController < ApplicationController
 
     def authorize_post
       unless @post.user == current_user
-        redirect_to collection_posts_path(@collection), alert: "You are not authorized to perform this action."
+        redirect_to collection_path(@collection), alert: "You can only edit your own posts."
+      end
+    end
+
+    def authorize_post_deletion
+      unless @post.user == current_user || @collection.moderator?(current_user)
+        redirect_to collection_path(@collection), alert: "You can only delete your own posts or posts in collections you moderate."
       end
     end
 

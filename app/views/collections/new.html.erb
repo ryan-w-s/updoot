@@ -1,9 +1,17 @@
-<h1>New collection</h1>
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <div class="box">
+          <h1 class="title is-2 has-text-centered">New Collection</h1>
 
-<%= render "form", collection: @collection %>
+          <%= render "form", collection: @collection %>
 
-<br>
-
-<div>
-  <%= link_to "Back to collections", collections_path %>
-</div>
+          <div class="has-text-centered mt-5">
+            <%= link_to "Back to collections", collections_path, class: "button is-light" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

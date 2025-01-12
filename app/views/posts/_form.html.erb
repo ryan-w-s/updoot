@@ -13,23 +13,20 @@
   <div class="field">
     <%= form.label :title, class: "label" %>
     <div class="control">
-      <%= form.text_field :title, class: "input" %>
+      <%= form.text_field :title, class: "input", placeholder: "Enter post title" %>
     </div>
   </div>
 
   <div class="field">
     <%= form.label :content, class: "label" %>
     <div class="control">
-      <%= form.text_area :content, rows: 5, class: "textarea" %>
+      <%= form.text_area :content, rows: 10, class: "textarea", placeholder: "Write your post content here..." %>
     </div>
   </div>
 
-  <div class="field is-grouped">
+  <div class="field">
     <div class="control">
-      <%= form.submit class: "button is-primary" %>
-    </div>
-    <div class="control">
-      <%= link_to "Back", collection_posts_path(@collection), class: "button is-light" %>
+      <%= form.submit class: "button is-primary is-fullwidth" %>
     </div>
   </div>
 <% end %>

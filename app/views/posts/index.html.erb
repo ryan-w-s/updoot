@@ -1,14 +1,38 @@
-<p style="color: green"><%= notice %></p>
+<section class="section">
+  <div class="container">
+    <% if notice %>
+      <div class="notification is-success">
+        <%= notice %>
+      </div>
+    <% end %>
 
-<h1>Posts</h1>
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item">
+          <h1 class="title">Posts in <%= @collection.name %></h1>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          <% if user_signed_in? %>
+            <%= link_to "New Post", new_collection_post_path(@collection), class: "button is-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
-  <% end %>
-</div>
+    <div class="posts-container">
+      <% if @posts.any? %>
+        <%= render @posts %>
+      <% else %>
+        <div class="notification is-info is-light">
+          No posts yet. <%= link_to "Create the first one!", new_collection_post_path(@collection) if user_signed_in? %>
+        </div>
+      <% end %>
+    </div>
 
-<%= link_to "New post", new_post_path %>
+    <div class="has-text-centered mt-5">
+      <%= link_to "Back to Collection", collection_path(@collection), class: "button is-light" %>
+    </div>
+  </div>
+</section>

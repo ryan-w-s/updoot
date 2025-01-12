@@ -8,13 +8,23 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   </head>
 
   <body>
     <%= render "layouts/navbar" %>
 
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice %>
+      <div class="notification is-success">
+        <%= notice %>
+      </div>
+    <% end %>
+    
+    <% if alert %>
+      <div class="notification is-danger">
+        <%= alert %>
+      </div>
+    <% end %>
 
     <%= yield %>
   </body>
