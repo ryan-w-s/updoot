@@ -1,30 +1,43 @@
-<div class="column is-one-third">
-  <div class="card" id="<%= dom_id collection %>">
-    <div class="card-content">
-      <p class="title is-4">
-        <%= link_to collection.name, collection, class: "has-text-info-light" %>
-      </p>
-      <div class="content">
+<div class="box py-3 mb-3" id="<%= dom_id collection %>">
+  <article class="media mb-0">
+    <div class="media-content">
+      <div class="level mb-1">
+        <div class="level-left">
+          <div class="level-item">
+            <h3 class="title is-4 mb-0">
+              <%= link_to collection.name, collection, class: "has-text-info-light" %>
+            </h3>
+          </div>
+          <div class="level-item">
+            <div class="tags mb-0">
+              <span class="tag is-info">
+                <%= pluralize(collection.posts.count, 'post') %>
+              </span>
+              <span class="tag is-success">
+                <%= pluralize(collection.mods.count, 'moderator') %>
+              </span>
+              <span class="tag is-warning">
+                <%= pluralize(collection.watching_users.count, 'watcher') %>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="buttons are-small">
+            <%= link_to "View", collection, class: "button is-link is-light" %>
+            <% if user_signed_in? && collection.moderator?(current_user) %>
+              <%= link_to "Edit", edit_collection_path(collection), class: "button is-info is-light" %>
+              <%= button_to "Delete", collection, method: :delete, 
+                  class: "button is-danger is-light",
+                  form: { class: 'd-inline' },
+                  data: { turbo_confirm: "Are you sure?" } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="content is-small has-text-grey-light">
         <%= collection.description %>
       </div>
-      <div class="tags">
-        <span class="tag is-info">
-          <%= pluralize(collection.posts.count, 'post') %>
-        </span>
-        <span class="tag is-success">
-          <%= pluralize(collection.mods.count, 'moderator') %>
-        </span>
-      </div>
     </div>
-    
-    <footer class="card-footer">
-      <%= link_to "View Collection", collection, class: "card-footer-item" %>
-      <% if user_signed_in? && collection.moderator?(current_user) %>
-        <%= link_to "Edit", edit_collection_path(collection), class: "card-footer-item" %>
-        <%= button_to "Delete", collection, method: :delete, 
-            class: "card-footer-item has-text-danger",
-            data: { turbo_confirm: "Are you sure?" } %>
-      <% end %>
-    </footer>
-  </div>
+  </article>
 </div>

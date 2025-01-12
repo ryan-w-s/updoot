@@ -21,14 +21,12 @@
       </div>
     </div>
 
-    <div class="columns is-multiline">
+    <div class="collections-container">
       <% if @collections.any? %>
         <%= render @collections %>
       <% else %>
-        <div class="column">
-          <div class="notification is-info is-light">
-            No collections yet. <%= link_to "Create the first one!", new_collection_path if user_signed_in? %>
-          </div>
+        <div class="notification is-info is-light">
+          No collections yet. <%= link_to "Create the first one!", new_collection_path if user_signed_in? %>
         </div>
       <% end %>
     </div>

@@ -13,6 +13,20 @@
         <div class="control">
           <%= link_to "New Post", new_collection_post_path(@collection), class: "button is-primary" %>
         </div>
+
+        <% if current_user.watching?(@collection) %>
+          <div class="control">
+            <%= button_to "Unwatch", collection_watcher_path(@collection), 
+                method: :delete, 
+                class: "button is-warning" %>
+          </div>
+        <% else %>
+          <div class="control">
+            <%= button_to "Watch", collection_watcher_path(@collection), 
+                method: :post, 
+                class: "button is-info" %>
+          </div>
+        <% end %>
       <% end %>
       
       <% if user_signed_in? && @collection.moderator?(current_user) %>

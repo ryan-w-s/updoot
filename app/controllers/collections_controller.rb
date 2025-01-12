@@ -5,7 +5,9 @@ class CollectionsController < ApplicationController
 
   # GET /collections or /collections.json
   def index
-    @collections = Collection.all
+    @collections = Collection.left_joins(:watchers)
+                           .group(:id)
+                           .order('COUNT(watchers.id) DESC')
   end
 
   # GET /collections/1 or /collections/1.json
