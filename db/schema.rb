@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_12_003436) do
+ActiveRecord::Schema[7.0].define(version: 2025_01_12_104418) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_12_003436) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "doots", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "post_id", null: false
+    t.integer "value", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id"], name: "index_doots_on_post_id"
+    t.index ["user_id", "post_id"], name: "index_doots_on_user_id_and_post_id", unique: true
+    t.index ["user_id"], name: "index_doots_on_user_id"
   end
 
   create_table "moderators", force: :cascade do |t|
@@ -64,6 +75,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_12_003436) do
     t.index ["user_id"], name: "index_watchers_on_user_id"
   end
 
+  add_foreign_key "doots", "posts"
+  add_foreign_key "doots", "users"
   add_foreign_key "moderators", "collections"
   add_foreign_key "moderators", "users"
   add_foreign_key "posts", "collections"

@@ -1,7 +1,21 @@
 class Post < ApplicationRecord
   belongs_to :user
   belongs_to :collection
-  
-  validates :title, presence: true, length: { minimum: 3, maximum: 300 }
-  validates :content, presence: true, length: { minimum: 10 }
+  has_many :doots, dependent: :destroy
+  has_many :dooters, through: :doots, source: :user
+
+  validates :title, presence: true
+  validates :content, presence: true
+
+  def doot_total
+    doots.sum(:value)
+  end
+
+  def updoot_count
+    doots.updoots.count
+  end
+
+  def downdoot_count
+    doots.downdoots.count
+  end
 end

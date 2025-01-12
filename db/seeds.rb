@@ -67,16 +67,48 @@ Watcher.create!(collection: collections[:food], user: users[:charlie])
 
 # Create some sample posts
 puts "Creating posts..."
+posts = {}
 collections.each do |name, collection|
   # Create 2-4 posts for each collection
   rand(2..4).times do |i|
     user = users.values.sample
-    Post.create!(
+    posts[:"#{name}_#{i}"] = Post.create!(
       title: "Sample #{name} post #{i + 1}",
       content: "This is a sample post for the #{name} collection. It contains some example content.",
       collection: collection,
       user: user
     )
+  end
+end
+
+# Create some doots
+puts "Creating doots..."
+# Popular post with mostly updoots
+popular_post = posts.values.sample
+[users[:admin], users[:alice], users[:bob], users[:charlie]].each do |user|
+  Doot.create!(user: user, post: popular_post, value: 1)
+end
+
+# Controversial post with mixed doots
+controversial_post = (posts.values - [popular_post]).sample
+Doot.create!(user: users[:alice], post: controversial_post, value: 1)
+Doot.create!(user: users[:bob], post: controversial_post, value: 1)
+Doot.create!(user: users[:charlie], post: controversial_post, value: -1)
+Doot.create!(user: users[:david], post: controversial_post, value: -1)
+
+# Unpopular post with mostly downdoots
+unpopular_post = (posts.values - [popular_post, controversial_post]).sample
+[users[:alice], users[:bob], users[:charlie]].each do |user|
+  Doot.create!(user: user, post: unpopular_post, value: -1)
+end
+
+# Random doots on other posts
+(posts.values - [popular_post, controversial_post, unpopular_post]).each do |post|
+  # 50% chance for each user to doot
+  users.values.each do |user|
+    if rand < 0.5
+      Doot.create!(user: user, post: post, value: [-1, 1].sample)
+    end
   end
 end
 

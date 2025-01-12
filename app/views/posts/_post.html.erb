@@ -4,6 +4,27 @@
       <div class="level mb-1">
         <div class="level-left">
           <div class="level-item">
+            <div class="field has-addons mr-3">
+              <%= button_to post_doot_path(post, value: 1), 
+                  method: :post,
+                  class: "button #{user_signed_in? && current_user.doot_value_for(post) == 1 ? 'is-success' : 'is-success is-light'}" do %>
+                <span class="icon is-small">
+                  <i class="fas fa-arrow-up"></i>
+                </span>
+              <% end %>
+              <div class="button is-static <%= post.doot_total > 0 ? 'has-text-success' : post.doot_total < 0 ? 'has-text-danger' : '' %>">
+                <%= post.doot_total %>
+              </div>
+              <%= button_to post_doot_path(post, value: -1), 
+                  method: :post,
+                  class: "button #{user_signed_in? && current_user.doot_value_for(post) == -1 ? 'is-danger' : 'is-danger is-light'}" do %>
+                <span class="icon is-small">
+                  <i class="fas fa-arrow-down"></i>
+                </span>
+              <% end %>
+            </div>
+          </div>
+          <div class="level-item">
             <strong>
               <%= link_to post.title, collection_post_path(post.collection, post), class: "has-text-info-light" %>
             </strong>

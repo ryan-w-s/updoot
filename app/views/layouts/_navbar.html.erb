@@ -15,9 +15,6 @@
     <div class="navbar-start">
       <%= link_to "Home", root_path, class: "navbar-item" %>
       <%= link_to "Collections", collections_path, class: "navbar-item" %>
-      <% if user_signed_in? %>
-        <%= link_to "New Collection", new_collection_path, class: "navbar-item" %>
-      <% end %>
     </div>
 
     <div class="navbar-end">

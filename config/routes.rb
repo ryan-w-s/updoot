@@ -13,4 +13,8 @@ Rails.application.routes.draw do
     resource :watcher, only: [:create, :destroy]
     resources :moderators, only: [:create, :destroy]
   end
+
+  resources :posts, only: [] do
+    resource :doot, only: [:create]
+  end
 end
