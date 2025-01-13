@@ -11,7 +11,28 @@
       <p class="subtitle is-6">
         Posted by <%= @post.user.name || @post.user.email %> 
         <%= time_ago_in_words(@post.created_at) %> ago
+        in <%= link_to @post.collection.name, collection_path(@post.collection), class: "has-text-info" %>
       </p>
+      <div class="tags">
+        <span class="tag is-success">
+          <span class="icon">
+            <i class="fas fa-arrow-up"></i>
+          </span>
+          <span><%= @post.updoot_count %></span>
+        </span>
+        <span class="tag is-danger">
+          <span class="icon">
+            <i class="fas fa-arrow-down"></i>
+          </span>
+          <span><%= @post.downdoot_count %></span>
+        </span>
+        <span class="tag is-info">
+          <span class="icon">
+            <i class="fas fa-chart-line"></i>
+          </span>
+          <span>Score: <%= @post.doot_total %></span>
+        </span>
+      </div>
       <div class="content">
         <%= simple_format @post.content %>
       </div>
